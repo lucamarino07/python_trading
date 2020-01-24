@@ -11,6 +11,7 @@ end = datetime.datetime(2020, 1, 31)
 
 df = data.get_data_yahoo('ISP.MI', start, end)
 
+df.to_csv('ISP.csv')
 print(df)
 
 
