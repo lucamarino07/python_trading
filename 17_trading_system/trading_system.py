@@ -82,24 +82,29 @@ if __name__ == '__main__':
 
     import pandas as pd
     modpath = os.path.basename(os.path.abspath(sys.argv[0]))
-    datapath = 'ISP.csv'
-    print(pd.read_csv(datapath))
+    datapath = '../16_analisi_mercato_azionario/ISP.csv'
 
-    data = bt.feeds.YahooFinanceCSVData(
-        dataname=datapath,
+
+    data = bt.feeds.YahooFinanceData(
+        dataname='AAPL',
         fromdate=datetime.datetime(2015, 1, 1),
-        todate=datetime.datetime(2018, 12, 31),
-        reverse=False
+        todate=datetime.datetime(2019, 12, 31),
+        buffered=True
     )
 
     cerebro.adddata(data)
     cerebro.broker.setcash(capitale_iniziale)
-    cerebro.addsizer(bt.sizers.FixedSize, stake=1000)
+    cerebro.addsizer(bt.sizers.FixedSize, stake=10)
     cerebro.broker.setcommission(commission=0.0002)
+
+
 
     print('Valore iniziale Portafoglio: %.2f' % cerebro.broker.getvalue())
 
     cerebro.run()
     print('Valore Finale Portafoglio: %.2f' % cerebro.broker.getvalue())
+
+    print(f'Profitto {cerebro.broker.getvalue() - capitale_iniziale}')
+    cerebro.plot()
 
 
